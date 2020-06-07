@@ -51,30 +51,119 @@
 
 // //////////////// Lesson 63   //////////////////
 // дэлгэцтэй ажиллах контроллер
-var uiController = (function() {})();
+var uiController = (function() {
+    var DOMstrings = {
+        inputType: ".add__type",
+        inputDescription: ".add__description",
+        inputValue: ".add__value",
+        addBtn: ".add__btn",
+    };
+
+    return {
+        getInput: function() {
+            return {
+                type: document.querySelector(DOMstrings.inputType).value,
+                description: document.querySelector(DOMstrings.inputDescription).value,
+                value: document.querySelector(DOMstrings.inputValue).value,
+            };
+        },
+
+        getDOMstrings: function() {
+            return DOMstrings;
+        },
+    };
+})();
+
 // санхүүтэй ажиллах контроллер
-var financeController = (function() {})();
+var financeController = (function() {
+    var Income = function(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+    var Expense = function(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+    var data = {
+        allItems: {
+            inc: [],
+            exp: [],
+        },
+
+        totals: {
+            inc: 0,
+            exp: 0,
+        },
+    };
+
+    // var incomes = [];
+    // var expenses = [];
+    // var totalIncomes = 0;
+    // var totalExpenses = 0;
+})();
 // Програмын холбогч контроллер
 var appController = (function(uiController, financeController) {
     var ctrlAddItem = function() {
         // 1. оруулах өгөгдлийн дэлгэцээс олж авна.
-        console.log("Дэлгэцээс өгөгдлөө авах хэсэг");
+        console.log(uiController.getInput());
+
         // 2. олж авсан өгөгдлүүдээ санхүүгийн контроллерт дамжуулж тэнд хадгална.
         // 3. олж авсан өгөгдлүүдээ вэб дээрээ тохирох хэсэгт нь гаргана.
         // 4. төсвийг тооцоолно.
         // 5. эцсийн үлдэгдэл, тооцоог дэлгэцэнд гаргана.
     };
 
-    document.querySelector(".add__btn").addEventListener("click", function() {
-        ctrlAddItem();
-    });
+    var setupEventListeners = function() {
+        var DOM = uiController.getDOMstrings();
 
-    document.addEventListener("keypress", function(event) {
-        // console.log(event);
-        if (event.keyCode === 13 || event.which === 13) {
+        document.querySelector(DOM.addBtn).addEventListener("click", function() {
             ctrlAddItem();
-        }
-        // else console.log("Өөр товч дарсан байна: " + event.keyCode);
-    });
-    // 5753687919
+        });
+
+        document.addEventListener("keypress", function(event) {
+            if (event.keyCode === 13 || event.which === 13) {
+                ctrlAddItem();
+            }
+            // else console.log("Өөр товч дарсан байна: " + event.keyCode);
+        });
+    };
+
+    return {
+        init: function() {
+            console.log("application started....");
+            setupEventListeners();
+        },
+    };
 })(uiController, financeController);
+
+appController.init();
+
+// var Income = function(id, description, value) {
+//     this.id = id;
+//     this.description = description;
+//     this.value = value;
+// };
+
+// var Expense = function(id, description, value) {
+//     this.id = id;
+//     this.description = description;
+//     this.value = value;
+// };
+
+// var i1 = new Income(1, "tsalin", 250000);
+// var i2 = new Income(2, "sugalaa", 20000);
+
+// console.log(i1);
+// console.log(i2);
+
+// var incomes = [];
+
+// incomes.push(i1);
+// incomes.push(i2);
+
+// console.log(incomes);
+// console.log(incomes[1].description);
